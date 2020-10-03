@@ -1,0 +1,72 @@
+Find First and Last Position of Element in Sorted Array
+...............................................................
+
+Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.
+Your algorithm's runtime complexity must be in the order of O(log n).If the target is not found in the array, return [-1, -1].
+
+
+
+Solution
+..............
+
+A. Brute Force Approach
+.........................
+
+Traverse the whole array and check for the 1st and last element ,
+and push the values of the indices in a vector and return it.
+    
+     Time Complexity - O(N)
+
+
+B. Optimal
+   ........
+
+   Since the array is sorted use binary search, find the 1st occurence of element by putting an additional condition 
+    i.e. if(nums[mid]== target){
+            res= mid;
+            end= mid-1;
+            }
+         for last occurence of element, we need a small modification:
+       i.e. if(nums[mid]== target){
+            res= mid;
+            start= mid+1;
+            }  
+
+        Time Complexity - O(logn)
+
+
+
+    Code
+    ......
+   
+     vector<int> searchRange(vector<int>& nums, int target) {
+        int i=0,j=nums.size()-1;
+        vector<int> ans;
+        int res1=-1,res2=-1;
+        while(i<=j){
+            int mid= (i+j)>>1;
+            if(nums[mid]== target){
+                res1= mid;
+                j=mid-1;
+            }
+            else if(nums[mid]<target)
+                i=mid+1;
+            else
+                j=mid-1;
+        }
+        int n=0,m=nums.size()-1;
+         while(n<=m){
+            int mid= (n+m)>>1;
+            if(nums[mid]== target){
+                res2= mid;
+                n=mid+1;
+            }
+            else if(nums[mid]<target)
+                n=mid+1;
+             else
+                 m=mid-1;
+        }
+      ans.push_back(res1);
+      ans.push_back(res2);
+        return ans;
+}
