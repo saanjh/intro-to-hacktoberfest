@@ -1,0 +1,71 @@
+ Painter's Partition Problem
+.................................
+
+Given 2 integers A and B and an array of integars C of size N.
+Element C[i] represents length of ith board.
+You have to paint all N boards [C0, C1, C2, C3 … CN-1]. There are A painters available and each 
+of them takes B units of time to paint 1 unit of board.
+Calculate and return minimum time required to paint all boards under the constraints that any 
+painter will only paint contiguous sections of board.  
+
+
+Solution
+............
+
+Its a binary search problem can be solved building the following intution:
+The minimum length a painter can paint in 1 unit is maximum of the length of walls given.
+and The maximum length a painter can paint in 1 unit is the sum of length of all the walls.
+Now, we calculate the mid value as mid = (l+h)>>1. 
+If the mid value satisfies the validity criteria then store ans= mid, and 
+h=mid-1(reduce the range to get appropriate ans)  , else, do l= mid-1.
+
+The validity criteria is:  take a count variable( c=1 ), as atleast one painter will paint the walls. 
+                           Now, take a sum variable(storing the sum of length of walls) and initialize it with 0.
+                           Now, run a loop traversing the wall lengths, and if( sum + C[i] > mid ), we will increment 
+                           count and modify sum = C[i], if(count > no of painters given), then we will return 0,
+                           else we will simply add C[i] to sum value and at the end return count.
+
+ Time Complexity -  O(nlogn)
+
+
+Code
+.......
+
+int isValid(vector<int> &C, int n, int A,int ans){
+    int c=1;
+    int sum=0;
+    for(int i=0;i<n;i++){
+        if(sum+C[i]>ans){
+            c++;
+            sum=C[i];
+            if(c>A)
+             return 0;
+        }
+        else
+         sum+=C[i];
+    }
+    return 1;
+}
+
+int Solution::paint(int A, int B, vector<int> &C) {
+    int n=C.size();
+    int mod= 1e7+3;
+    int l=0,h=0;
+    long sum=0;
+    long ans;
+   for(int i=0;i<n;i++){
+     sum+=C[i];
+     l=max(l,C[i]);
+    }
+    h=sum;
+    while(l<=h){
+        int m= (l+h)>>1;
+        if(isValid(C,n,A,m)){
+            ans=m;
+            h=m-1;
+        }
+        else
+         l=m+1;
+    }
+     return (int)(((ans%mod)*(B%mod))%mod);
+}
