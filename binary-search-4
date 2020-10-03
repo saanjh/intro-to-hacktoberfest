@@ -1,0 +1,49 @@
+Square Root of Integer
+..........................
+
+Given an integar A.
+Compute and return the square root of A.
+If A is not a perfect square, return floor(sqrt(A)).
+DO NOT USE SQRT FUNCTION FROM STANDARD LIBRARY
+
+
+Solution
+...........
+
+Brute Force Approach
+.....................
+
+We can run a loop till number given and find whether i*i== the number given.
+Time Complexity- O(n).
+
+Optimized Approach
+...................
+
+We can apply the concept of binary search. We will take low= 0, high =N.
+while(l<=h), find mid and then check if(mid<=A/mid) => res=mid and we will move to the next higher number i.e. low= mid +1 
+and else we will move to the lower number i.e. high= mid-1.
+Time Complexity- O(logn)
+
+
+Code
+......
+
+int sqrt(int A) {
+    int l=1;
+    int h=A;
+    int ans;
+  if(A==0)
+     return A;
+  while(l<=h){
+        int m=(l+h)>>1;
+         if(m<=A/m){
+          ans=m;
+          l=m+1;
+         }
+         else
+          h=m-1;
+    }
+  return ans;
+}
+
+
