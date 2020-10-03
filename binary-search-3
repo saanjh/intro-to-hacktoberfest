@@ -1,0 +1,63 @@
+Find the kth smallest element in a matrix
+...........................................
+
+
+Given a n x n matrix where each of the rows and columns are sorted in ascending order, 
+find the kth smallest element in the matrix.
+Note that it is the kth smallest element in the sorted order, not the kth distinct element.
+
+
+
+Solution
+............
+
+
+Brute Force Approach
+.....................
+
+
+Code
+......
+
+ int kthSmallest(vector<vector<int>>& matrix, int k) {
+        vector<int> v;
+        int n=matrix.size();
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                v.push_back(matrix[i][j]);
+        sort(v.begin(),v.end());
+        return v[k-1];
+    }
+
+
+
+
+Better Approach
+.................
+Since the matrix is sorted, we can apply and solve it using binary search.
+
+
+Code
+......
+
+ int kthSmallest(vector<vector<int>>& matrix, int k) {   
+        int n = matrix.size();
+        int low = matrix[0][0];
+        int high = matrix[n-1][n-1];
+        
+        while(low < high)
+        {
+            int mid = low + (high - low)/2;
+            int place = 0;
+            
+            for(int i=0; i<n; i++)
+            {
+                place += upper_bound(matrix[i].begin(), matrix[i].end(), mid) - matrix[i].begin();
+            }
+            
+            if(k > place) low = mid+1;
+            else high = mid;
+        }
+        
+        return low;
+    }
