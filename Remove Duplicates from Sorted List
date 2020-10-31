@@ -1,0 +1,35 @@
+Given a sorted linked list, delete all duplicates such that each element appear only once.
+Example 1:
+
+Input: 1->1->2
+Output: 1->2
+
+
+Solution
+..........
+
+We need to create a dummy node and follow in the steps to delete the duplicate node.
+
+Code
+.......
+
+ListNode* deleteDuplicates(ListNode* head) {
+      ListNode dummy(INT_MIN);
+      dummy.next= head;
+      if(head==NULL)
+          return NULL;
+       ListNode* p= &dummy;
+       while(p->next){
+           if(p->val==p->next->val){
+               ListNode* q= p->next->next;
+               p->next->next= NULL;
+               p->next= q;
+           }
+           else
+               p=p->next;
+       } 
+      return dummy.next;  
+    }
+
+
+
