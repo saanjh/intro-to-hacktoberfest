@@ -1,0 +1,37 @@
+Remove all elements from a linked list of integers that have value val.
+
+Example:
+
+Input:  1->2->6->3->4->5->6, val = 6
+Output: 1->2->3->4->5
+
+
+Solution
+...........
+
+Similar to previous, it uses the dummy pointer.
+
+Code
+......
+
+ListNode* removeElements(ListNode* head, int val) {
+     ListNode dummy(0);
+     dummy.next= head;   
+     ListNode *p= &dummy;
+     if(head==NULL)
+         return NULL;
+     while(p->next){
+         if(p->next->val == val){
+         ListNode *q= p->next->next;
+         p->next->next= NULL;
+         p->next= q;
+          }
+        else 
+        p=p->next;
+        }
+        return dummy.next;
+    }
+
+
+
+
